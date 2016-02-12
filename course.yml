@@ -1,0 +1,11 @@
+id: 833
+title: Ecological Networks in R
+author_field: Miguel Lurgi and Sebastian Block
+description: This course shows how to analize ecological networks in R, using `igraph`
+  and `cheddar` packages. You should already know the basics of the R programming
+  language (the introductory courses here in DataCamp should be enough). The course
+  has a practical focus. If you want to study the theory of networks in more depth,
+  give a look to the courses offered by Complexity Learning.
+chapters:
+  chapter1.Rmd: 1985
+

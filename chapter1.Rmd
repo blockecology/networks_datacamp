@@ -1,0 +1,658 @@
+---
+title_meta  : Chapter 1 
+title       : Introduction to networks
+description : Basic concepts about ecological networks, 
+
+--- type:VideoExercise lang:r xp:50 skills:1
+## Introduction to ecological networks
+
+
+*** =video_link
+//player.vimeo.com/video/153476481
+
+--- type:MultipleChoiceExercise lang:r xp:50 skills:1
+## One way or another
+
+If links in a network are represented as arrows, the network is:
+
+*** =instructions
+- Directed
+- Undirected
+- Mutualistic
+
+*** =hint
+Arrows usually show in which *direction* energy or biomass flows in the foodweb.
+
+*** =pre_exercise_code
+```{r}
+# pec
+```
+
+*** =sct
+```{r}
+test_mc(1) # if 2 is the correct option.
+```
+
+--- type:MultipleChoiceExercise lang:r xp:50 skills:1
+## Win win relations
+
+An ecological network encompassing relationships in wich both species benefit from them is a:
+
+*** =instructions
+- food web
+- mutualistic network
+- host-parasite network
+
+*** =hint
+In this type of network, relations have a mutual benefit. 
+
+*** =pre_exercise_code
+```{r}
+
+```
+
+*** =sct
+```{r}
+test_mc(2) # if 2 is the correct option.
+```
+
+
+--- type:NormalExercise lang:r xp:100 skills:1
+
+<script type="text/javascript" src="http://latex.codecogs.com/latexit.js"></script>
+
+## Network formats: edgelists and adjacency matrices
+
+Several computer readable formats exist to store the description and information contained in a network. The most commonly used ones in ecological networks (and other disciplines) are (i) adjacency matrices, and (ii) edgelists.
+
+Adjancecy are matrices in which columns and rows represent the nodes/species in the network, and a link/interaction between nodes/species is repsented as a 1. The absence of an interacion is given by a 0.
+
+Thus, a network can be defined by a matrix **A** where:
+
+<div lang="latex">
+\usepackage{amsmath}
+\begin{cases} 
+      a_{ij} = 1 & if \ there \ is \ an \ interaction \ between \ i \ and \ j \\
+      a_{ij} = 0 & if \ there \ is \ NO \ interaction \ between \ i \ and \ j
+\end{cases}
+</div>
+
+<br>
+In the case of a foodweb, for example, as we saw previously, links are directed from prey to predator. The convention here is to take prey as being represented by rows and predators by columns. Thus, an interaction a<sub>ij</sub> runs from prey i to predator j.
+
+In the case of a mutualistic (i.e. bipartite) network, species are not all represented in each dimension of the matrix (rows and columns). Instead hosts are usually shown in rows and their mutualistic partners are shown in columns. This makes these matrices non-square.
+
+Edgelists on the other hand are lists of pairs of identifiers (usually integers) that
+denote links (or ecological interactions) from the first item in pair to the second.
+For example, a network specified by the following edgelist: 
+
+1 2 <br>
+2 3 <br>
+1 3 <br>
+
+is one with three nodes: V = {1,2,3}, and three links: one from basal prey 1 to primary consumer 2, another one from prey (primary consumer) 2 to top predator 3, and finally, an interaction between the basal resource and the top predator (E = {(1,2), (2,3), (1,3)}). This makes the top predator an omnivorous species. A representation of this network is shown below:
+
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Erithacus_rubecula_with_cocked_head.jpg/300px-Erithacus_rubecula_with_cocked_head.jpg" alt="Food chain">
+
+This network can be represented as an adjacency matrix thus:
+
+<div lang="latex">A = \begin{bmatrix}
+    0 & 1 & 1 \\
+    0 & 0 & 1 \\
+    0 & 0 & 0
+  \end{bmatrix}</div>
+
+<br>
+More sophisticated ways of representing and storing networks exist, such as for example
+the <a href="http://graphml.graphdrawing.org">GraphML</a> format, in which additional information about the network, the nodes, and 
+the links can be included in the description.
+
+In this course we will use edgelists as a starting format and then convert that 
+representation into an adjacency matrix.
+
+
+*** =instructions
+- Make an adjacency matrix for the Benguela food web. For now, let it contain only zeros. 
+- Add intereactions to the adjacency matrix.
+
+*** =hint
+- Remember that in numbers in an edge list represent species. To know how many species there are in the food web, look for the largest number in the edge list.
+- Each line in the edge list represents an interaction between the species in each column.
+
+*** =pre_exercise_code
+```{r}
+# pec
+library(repmis)
+#y
+benguela.EL <- repmis::source_DropboxData("benguela.tro", "bg9l4spz0zi03r9", cache = F)
+benguela.EL <- as.matrix(benguela.EL)
+```
+
+*** =sample_code
+```{r}
+# Create an adjacency matrix called benguela.AM, containing only zeros
+benguela.AM <- 
+
+# Introduce ones to the matrix to represent interactions between species
+
+```
+
+*** =solution
+```{r}
+# Create an adjacency matrix called benguela.AM, containing only zeros
+benguela.AM <- matrix(0, max(benguela.EL), max(benguela.EL))
+
+# Introduce ones to the matrix to represent interactions between species
+benguela.AM[benguela.EL] <- 1
+```
+
+*** =sct
+```{r}
+test_error()
+
+# Adjacency matrix
+test_function(matrix, c("nrow", "ncol"))
+
+# Interactions
+i.m <- "It seems that you did not define the interactions correctly. Check your code and try again."
+test_object(benguela.AM, undefined_msg = "Did you define an adjacency matrix called benguela.AM?",
+            incorrect_msg = i.m)
+
+success_msg("Fantastic job! Let's continue.")
+```
+
+
+--- type:MultipleChoiceExercise lang:r xp:75 skills:1
+## Calculate number of nodes: food webs
+
+REMIND THAT NODES ARE SPECIES AND HOW TO COUNT IN R. The Benguela food web adjacency matrix `benguela.AM` that you created in the last exercise is already loaded. Calculate the number of species. <br>
+
+(WE MIGHT WANT TO LOAD A BIGGER NETWORK HERE)
+
+*** =instructions
+- 30
+- 31
+- 29
+- 28
+
+*** =hint
+In an adjacency matrix, all species are represented by columns and rows. If you calculate the number of columns or rows of the matrix you will get the number of species in the food web. Also, you can use the `dim` function to look at the *dimensions* of the matrix.
+
+*** =pre_exercise_code
+```{r}
+# pec
+library(repmis)
+y
+benguela.EL <- repmis::source_DropboxData("benguela.tro", "bg9l4spz0zi03r9", cache = F)
+benguela.EL <- as.matrix(benguela.EL)
+
+# Create an adjacency matrix called benguela.AM, containing only zeros
+benguela.AM <- matrix(0, max(benguela.EL), max(benguela.EL))
+
+# Introduce ones to the matrix to represent interactions between species
+benguela.AM[benguela.EL] <- 1
+```
+
+
+*** =sct
+```{r}
+test_mc(3) 
+```
+
+
+--- type:MultipleChoiceExercise lang:r xp:75 skills:1
+## Calculate number of links: food web
+
+REMIND INTERACTIONS ARE REPRESENTED AS ONES Now calculate the number of links
+
+*** =instructions
+- 200
+- 201
+- 202
+- 203
+- 204
+
+*** =hint
+Since interactions are represented as ones in the matrix, if you `sum` all the values in the matrix, you will get the number of interactions.
+
+*** =pre_exercise_code
+```{r}
+library(repmis)
+y
+benguela.EL <- repmis::source_DropboxData("benguela.tro", "bg9l4spz0zi03r9", cache = F)
+benguela.EL <- as.matrix(benguela.EL)
+
+# Create an adjacency matrix called benguela.AM, containing only zeros
+benguela.AM <- matrix(0, max(benguela.EL), max(benguela.EL))
+
+# Introduce ones to the matrix to represent interactions between species
+benguela.AM[benguela.EL] <- 1
+```
+
+
+*** =sct
+```{r}
+test_mc(4)
+```
+
+
+--- type:MultipleChoiceExercise lang:r xp:75 skills:1
+## Calculate number of nodes: bipartite network
+
+EXPLAIN THE DIFFERENCES BETWEEN A FOODWEB MATRIX AND A BIPARTITE MATRIX (DIFFERENCES RELEVANT TO COUNT SPECIES). We have loaded a matrix representing a bipartite network of anemones with their interacting fish species called `anemonef`. Calculate the total number of anemone *and* fish species in the network.
+
+*** =instructions
+- 26
+- 28
+- 36
+- 38
+- 40
+
+*** =hint
+Remember that in a bipartite network, one set of species (in this case, anemones) are represented as columns, while the other set (in this case, fishes) are represented as rows.
+
+*** =pre_exercise_code
+```{r}
+library(repmis)
+y
+anemonef <- repmis::source_DropboxData("anemonefish.txt", "kjeow29fmhja2hm", cache = F)
+names(anemonef) <- paste("A", 1:10, sep = "")
+row.names(anemonef) <- paste("F", 1:26, sep = "")       
+anemonef <- as.matrix(anemonef)
+```
+
+
+*** =sct
+```{r}
+test_mc(3)
+```
+
+
+--- type:NormalExercise lang:r xp:100 skills:1
+## Weaving networks from scratch
+
+EXPLAIN IGRAPH AND GIVE AN EXAMPLE OF HOW TO CREATE A SIMPLE NETWORK.
+
+*** =instructions
+- First create a vector called `species` with the numbers from 1 to 10
+- Then create a network by adding the `species` as `vertices` to an empty graph.
+- Create an interaction between species 5 and 7
+- Create 10 other interactions between any species you want
+
+*** =hint
+hint comes here
+
+*** =pre_exercise_code
+```{r}
+# pec
+require(igraph)
+```
+
+*** =sample_code
+```{r}
+# Ten species
+species <- 
+network <- 
+
+# Link between species 5 and 7
+
+```
+
+*** =solution
+```{r}
+# Ten species
+species <- 1:10
+network <- graph.empty() + vertices(species)
+
+# Link between species 5 and 7
+network[5,7] <- 1
+```
+
+*** =sct
+```{r}
+# sct code
+test_object(network, eq_condition = "identical",
+            undefined_msg = "It seems you didn't create an object called <code>network</code>. Try again.",
+            incorrect_msg = "Ups, it seems your network does not have an interaction between the right pair of species. Try again.")
+
+success_msg("Perfect! That network looks just fine!")
+```
+
+
+--- type:NormalExercise lang:r xp:100 skills:1
+## Converting matrix to igraph object
+
+EXPLAIN HOW AND WHY CONVERT A MATRIX TO AN IGRAPH OBJECT
+
+*** =instructions
+- Use the `graph.adjacency()` function to convert `benguela.AM` into an `igraph` network called `benguela.network`
+
+
+*** =hint
+The adjacency matrix `benguela.AM` is already loaded. Just apply `graph.adjacency()` to it.
+
+*** =pre_exercise_code
+```{r}
+library(repmis)
+y
+benguela.EL <- repmis::source_DropboxData("benguela.tro", "bg9l4spz0zi03r9", cache = F)
+benguela.EL <- as.matrix(benguela.EL)
+
+# Create an adjacency matrix called benguela.AM, containing only zeros
+benguela.AM <- matrix(0, max(benguela.EL), max(benguela.EL))
+
+# Introduce ones to the matrix to represent interactions between species
+benguela.AM[benguela.EL] <- 1
+
+require(igraph)
+```
+
+*** =sample_code
+```{r}
+# Convert Benguela adjacency matrix to an igraph network
+benguela.network <- 
+```
+
+*** =solution
+```{r}
+# Convert Benguela adjacency matrix to an igraph network
+benguela.network <- graph.adjacency(benguela.AM)
+```
+
+*** =sct
+```{r}
+test_error()
+test_function(graph.adjacency)
+success_msg("Well done! Now you can use all the power to igraph to analyse the Benguela food web")
+```
+
+
+--- type:NormalExercise lang:r xp:100 skills:1
+## Calculate number of links and nodes with igraph
+
+EXPLAIN FUNCTIONS TO CALCULATE STUFF
+
+*** =instructions
+- Use function `vcount()` to count the number of vertices (i.e., species) in `benguela.network`
+- Use function `ecount()` to count the number of edges (i.e., interactions) in `benguela.network`
+
+*** =hint
+The `benguela.network` is already loaded. You just have to use `vcount()` and `ecount()` on it.
+
+*** =pre_exercise_code
+```{r}
+library(repmis)
+y
+benguela.EL <- repmis::source_DropboxData("benguela.tro", "bg9l4spz0zi03r9", cache = F)
+benguela.EL <- as.matrix(benguela.EL)
+
+# Create an adjacency matrix called benguela.AM, containing only zeros
+benguela.AM <- matrix(0, max(benguela.EL), max(benguela.EL))
+
+# Introduce ones to the matrix to represent interactions between species
+benguela.AM[benguela.EL] <- 1
+
+require(igraph)
+benguela.network <- graph.adjacency(benguela.AM)
+```
+
+*** =sample_code
+```{r}
+# Calculate number of species
+
+
+# Calculate number of interactions
+
+```
+
+*** =solution
+```{r}
+# Calculate number of species
+vcount(bengala.network)
+
+# Calculate number of interactions
+ecount(bengala.network)
+```
+
+*** =sct
+```{r}
+test_error()
+test_function(vcount)
+test_function(ecount)
+success_msg("Good job!")
+```
+
+
+--- type:NormalExercise lang:r xp:100 skills:1
+## Calculate connectance
+
+AFTER VIDEO, EXPLAIN BRIEFLY CONECTIVITY AND GIVE EXAMPLE USING MATRIX
+
+*** =instructions
+- Calculate connectance using igraph functions
+
+
+*** =hint
+Connectance is the number of interactions (`ecount()`), between the number of species squared (`vcount()^2`).
+
+*** =pre_exercise_code
+```{r}
+library(repmis)
+y
+benguela.EL <- repmis::source_DropboxData("benguela.tro", "bg9l4spz0zi03r9", cache = F)
+benguela.EL <- as.matrix(benguela.EL)
+
+# Create an adjacency matrix called benguela.AM, containing only zeros
+benguela.AM <- matrix(0, max(benguela.EL), max(benguela.EL))
+
+# Introduce ones to the matrix to represent interactions between species
+benguela.AM[benguela.EL] <- 1
+
+require(igraph)
+benguela.network <- graph.adjacency(benguela.AM)
+```
+
+*** =sample_code
+```{r}
+# Calculate connectance
+connectance <- 
+        
+# Print connectance value
+print(connectance)
+```
+
+*** =solution
+```{r}
+# Calculate connectance
+connectance <- ecount(bengala.network) / vcount(bengala.network)^2 
+
+# Print connectance value
+print(connectance)
+```
+
+*** =sct
+```{r}
+test_error()
+test_object(connectance, "identical")
+```
+
+
+--- type:NormalExercise lang:r xp:100 skills:1
+## Calculate links per species
+
+EXPLAIN CONCEPT AND WHY IT IS IMPORTANT
+
+*** =instructions
+- Using igraph functions, calculate the average number of links per species in `benguela.network`
+
+
+*** =hint
+Just divide the number of links given by `ecount()` between the number of species given by `vcount()`.
+
+*** =pre_exercise_code
+```{r}
+library(repmis)
+y
+benguela.EL <- repmis::source_DropboxData("benguela.tro", "bg9l4spz0zi03r9", cache = F)
+benguela.EL <- as.matrix(benguela.EL)
+
+# Create an adjacency matrix called benguela.AM, containing only zeros
+benguela.AM <- matrix(0, max(benguela.EL), max(benguela.EL))
+
+# Introduce ones to the matrix to represent interactions between species
+benguela.AM[benguela.EL] <- 1
+
+require(igraph)
+benguela.network <- graph.adjacency(benguela.AM)
+```
+
+*** =sample_code
+```{r}
+# Calculate number of links per species
+linkes.per.species <- 
+```
+
+*** =solution
+```{r}
+# Calculate number of links per species
+linkes.per.species <- ecount(beguela.network) / vcount(benguela.network)
+```
+
+*** =sct
+```{r}
+test_error()
+test_object(links.per.species, "identical")
+```
+
+
+--- type:NormalExercise lang:r xp:200 skills:1
+## Calculate connectance bipartite network
+
+EXPLAIN PROBLEM
+
+*** =instructions
+- Calculate connectance of the bipartite network `anemonef`
+
+
+*** =hint
+Remember that in bipartite networks, one set of species is represented as rows while the other is represented by columns.
+
+*** =pre_exercise_code
+```{r}
+library(repmis)
+y
+anemonef <- repmis::source_DropboxData("anemonefish.txt", "kjeow29fmhja2hm", cache = F)
+names(anemonef) <- paste("A", 1:10, sep = "")
+row.names(anemonef) <- paste("F", 1:26, sep = "")       
+anemonef <- as.matrix(anemonef)
+```
+
+*** =sample_code
+```{r}
+# Calculate conectance of anemonef
+bipartite.connectance <- 
+        
+```
+
+*** =solution
+```{r}
+# Calculate conectance of anemoref
+bipartite.connectance <- sum(anemonef) / dim(anemonef)[1] * dim(anemonef)[2]
+        
+```
+
+*** =sct
+```{r}
+test_error()
+test_object(bipartite.connectance, "identical")
+```
+
+
+--- type:MultipleChoiceExercise lang:r xp:100 skills:1
+## The most connected
+
+We have loaded 5 food webs (A, B, C, D, E). Which has the highest connectance?
+
+*** =instructions
+- A
+- B
+- C
+- D
+- E
+
+*** =hint
+Use what you have learned.  
+
+*** =pre_exercise_code
+```{r}
+require(igraph)
+set.seed(3)
+
+A <- matrix(0, 15, 15)
+A[matrix(sample(15, 76, replace = T), ncol = 2)] <- 1
+
+B <- matrix(0, 52, 52)
+B[matrix(sample(52, 800, replace = T), ncol = 2)] <- 1
+
+C <- matrix(0, 151, 151)
+C[matrix(sample(151, 1500, replace = T), ncol = 2)] <- 1
+
+D <- matrix(0, 8, 8)
+D[matrix(sample(8, 56, replace = T), ncol = 2)] <- 1
+
+E <- matrix(0, 327, 327)
+E[matrix(sample(327, 106, replace = T), ncol = 2)] <- 1
+```
+
+*** =sct
+```{r}
+test_mc(4) # if 2 is the correct option.
+```
+
+
+--- type:NormalExercise lang:r xp:100 skills:1
+## Represent a network
+
+EXPLAIN WAYS TO REPRESENT NETWORKS
+
+*** =instructions
+- Plot Benguela food web
+
+
+*** =hint
+You can use the `plot()` function directly on `benguela.network`
+
+*** =pre_exercise_code
+```{r}
+library(repmis)
+y
+benguela.EL <- repmis::source_DropboxData("benguela.tro", "bg9l4spz0zi03r9", cache = F)
+benguela.EL <- as.matrix(benguela.EL)
+
+# Create an adjacency matrix called benguela.AM, containing only zeros
+benguela.AM <- matrix(0, max(benguela.EL), max(benguela.EL))
+
+# Introduce ones to the matrix to represent interactions between species
+benguela.AM[benguela.EL] <- 1
+
+require(igraph)
+benguela.network <- graph.adjacency(benguela.AM)
+```
+
+*** =sample_code
+```{r}
+# Plot the Benguela food web
+
+```
+
+*** =solution
+```{r}
+# Plot the Benguela food web
+plot(benguela.network, edge.arrow.size = 0.2)
+```
+
+*** =sct
+```{r}
+test_error()
+test_function(plot)
+```

@@ -118,10 +118,11 @@ representation into an adjacency matrix.
 *** =pre_exercise_code
 ```{r}
 # pec
-library(repmis)
-#y
-benguela.EL <- repmis::source_DropboxData("benguela.tro", "bg9l4spz0zi03r9", cache = F)
+library(RCurl)
+x <- getURL("https://raw.githubusercontent.com/seblun/networks_datacamp/master/datasets/benguela.tro")
+benguela.EL <- read.table(text = x) 
 benguela.EL <- as.matrix(benguela.EL)
+
 ```
 
 *** =sample_code
@@ -179,9 +180,9 @@ In an adjacency matrix, all species are represented by columns and rows. If you 
 *** =pre_exercise_code
 ```{r}
 # pec
-library(repmis)
-y
-benguela.EL <- repmis::source_DropboxData("benguela.tro", "bg9l4spz0zi03r9", cache = F)
+library(RCurl)
+x <- getURL("https://raw.githubusercontent.com/seblun/networks_datacamp/master/datasets/benguela.tro")
+benguela.EL <- read.table(text = x) 
 benguela.EL <- as.matrix(benguela.EL)
 
 # Create an adjacency matrix called benguela.AM, containing only zeros
@@ -215,9 +216,9 @@ Since interactions are represented as ones in the matrix, if you `sum` all the v
 
 *** =pre_exercise_code
 ```{r}
-library(repmis)
-y
-benguela.EL <- repmis::source_DropboxData("benguela.tro", "bg9l4spz0zi03r9", cache = F)
+library(RCurl)
+x <- getURL("https://raw.githubusercontent.com/seblun/networks_datacamp/master/datasets/benguela.tro")
+benguela.EL <- read.table(text = x) 
 benguela.EL <- as.matrix(benguela.EL)
 
 # Create an adjacency matrix called benguela.AM, containing only zeros
@@ -259,9 +260,9 @@ Remember that in a bipartite network, one set of species (in this case, anemones
 
 *** =pre_exercise_code
 ```{r}
-library(repmis)
-y
-anemonef <- repmis::source_DropboxData("anemonefish.txt", "kjeow29fmhja2hm", cache = F)
+library(RCurl)
+y <- getURL("https://raw.githubusercontent.com/seblun/networks_datacamp/master/datasets/anemonefish.txt")
+anemonef <- read.table(text = y)
 names(anemonef) <- paste("A", 1:10, sep = "")
 row.names(anemonef) <- paste("F", 1:26, sep = "")       
 anemonef <- as.matrix(anemonef)
@@ -341,9 +342,9 @@ The adjacency matrix `benguela.AM` is already loaded. Just apply `graph.adjacenc
 
 *** =pre_exercise_code
 ```{r}
-library(repmis)
-y
-benguela.EL <- repmis::source_DropboxData("benguela.tro", "bg9l4spz0zi03r9", cache = F)
+library(RCurl)
+x <- getURL("https://raw.githubusercontent.com/seblun/networks_datacamp/master/datasets/benguela.tro")
+benguela.EL <- read.table(text = x) 
 benguela.EL <- as.matrix(benguela.EL)
 
 # Create an adjacency matrix called benguela.AM, containing only zeros
@@ -391,9 +392,9 @@ The `benguela.network` is already loaded. You just have to use `vcount()` and `e
 
 *** =pre_exercise_code
 ```{r}
-library(repmis)
-y
-benguela.EL <- repmis::source_DropboxData("benguela.tro", "bg9l4spz0zi03r9", cache = F)
+library(RCurl)
+x <- getURL("https://raw.githubusercontent.com/seblun/networks_datacamp/master/datasets/benguela.tro")
+benguela.EL <- read.table(text = x) 
 benguela.EL <- as.matrix(benguela.EL)
 
 # Create an adjacency matrix called benguela.AM, containing only zeros
@@ -457,9 +458,9 @@ Connectance is the number of interactions (`ecount()`), between the number of sp
 
 *** =pre_exercise_code
 ```{r}
-library(repmis)
-y
-benguela.EL <- repmis::source_DropboxData("benguela.tro", "bg9l4spz0zi03r9", cache = F)
+library(RCurl)
+x <- getURL("https://raw.githubusercontent.com/seblun/networks_datacamp/master/datasets/benguela.tro")
+benguela.EL <- read.table(text = x) 
 benguela.EL <- as.matrix(benguela.EL)
 
 # Create an adjacency matrix called benguela.AM, containing only zeros
@@ -511,9 +512,9 @@ Just divide the number of links given by `ecount()` between the number of specie
 
 *** =pre_exercise_code
 ```{r}
-library(repmis)
-y
-benguela.EL <- repmis::source_DropboxData("benguela.tro", "bg9l4spz0zi03r9", cache = F)
+library(RCurl)
+x <- getURL("https://raw.githubusercontent.com/seblun/networks_datacamp/master/datasets/benguela.tro")
+benguela.EL <- read.table(text = x) 
 benguela.EL <- as.matrix(benguela.EL)
 
 # Create an adjacency matrix called benguela.AM, containing only zeros
@@ -561,9 +562,9 @@ Remember that in bipartite networks, one set of species is represented as rows w
 
 *** =pre_exercise_code
 ```{r}
-library(repmis)
-y
-anemonef <- repmis::source_DropboxData("anemonefish.txt", "kjeow29fmhja2hm", cache = F)
+library(RCurl)
+y <- getURL("https://raw.githubusercontent.com/seblun/networks_datacamp/master/datasets/anemonefish.txt")
+anemonef <- read.table(text = y)
 names(anemonef) <- paste("A", 1:10, sep = "")
 row.names(anemonef) <- paste("F", 1:26, sep = "")       
 anemonef <- as.matrix(anemonef)
@@ -650,9 +651,9 @@ You can use the `plot()` function directly on `benguela.network`
 
 *** =pre_exercise_code
 ```{r}
-library(repmis)
-y
-benguela.EL <- repmis::source_DropboxData("benguela.tro", "bg9l4spz0zi03r9", cache = F)
+library(RCurl)
+x <- getURL("https://raw.githubusercontent.com/seblun/networks_datacamp/master/datasets/benguela.tro")
+benguela.EL <- read.table(text = x) 
 benguela.EL <- as.matrix(benguela.EL)
 
 # Create an adjacency matrix called benguela.AM, containing only zeros

@@ -63,21 +63,20 @@ test_mc(2) # if 2 is the correct option.
 
 ## Network formats: edgelists and adjacency matrices
 
-Several computer readable formats exist to store the description and information contained in a network. The most commonly used ones in ecological networks (and other disciplines) are (i) adjacency matrices, and (ii) edgelists.
+Several computer readable formats exist to store the description and information contained in a network. The most commonly used ones in ecological networks (and other disciplines) are: (i) adjacency matrices, and (ii) edgelists.
 
 Adjancecy are matrices in which columns and rows represent the nodes/species in the network, and a link/interaction between nodes/species is repsented as a 1. The absence of an interacion is given by a 0.
 
 Thus, a network can be defined by a matrix **A** where:
 
 <div lang="latex">
-\usepackage{amsmath}
-\begin{cases} 
-      a_{ij} = 1 & if \ there \ is \ an \ interaction \ between \ i \ and \ j \\
+\\begin{cases} 
+      a_{ij} = 1 & if \ there \ is \ an \ interaction \ between \ i \ and \ j \\\\
       a_{ij} = 0 & if \ there \ is \ NO \ interaction \ between \ i \ and \ j
-\end{cases}
+\\end{cases}
 </div>
 
-<br>
+
 In the case of a foodweb, for example, as we saw previously, links are directed from prey to predator. The convention here is to take prey as being represented by rows and predators by columns. Thus, an interaction a<sub>ij</sub> runs from prey i to predator j.
 
 In the case of a mutualistic (i.e. bipartite) network, species are not all represented in each dimension of the matrix (rows and columns). Instead hosts are usually shown in rows and their mutualistic partners are shown in columns. This makes these matrices non-square.
@@ -92,17 +91,14 @@ For example, a network specified by the following edgelist:
 
 is one with three nodes: V = {1,2,3}, and three links: one from basal prey 1 to primary consumer 2, another one from prey (primary consumer) 2 to top predator 3, and finally, an interaction between the basal resource and the top predator (E = {(1,2), (2,3), (1,3)}). This makes the top predator an omnivorous species. A representation of this network is shown below:
 
-<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Erithacus_rubecula_with_cocked_head.jpg/300px-Erithacus_rubecula_with_cocked_head.jpg" alt="Food chain">
+<p> <img src="https://raw.githubusercontent.com/mlurgi/images/master/net1.png" alt="Food chain"/>
+</p>
 
 This network can be represented as an adjacency matrix thus:
 
-<div lang="latex">A = \begin{bmatrix}
-    0 & 1 & 1 \\
-    0 & 0 & 1 \\
-    0 & 0 & 0
-  \end{bmatrix}</div>
+<p><img src="https://raw.githubusercontent.com/mlurgi/images/master/matrix.png" alt="Adjacency matrix"/>
+</p>
 
-<br>
 More sophisticated ways of representing and storing networks exist, such as for example
 the <a href="http://graphml.graphdrawing.org">GraphML</a> format, in which additional information about the network, the nodes, and 
 the links can be included in the description.
@@ -165,9 +161,11 @@ success_msg("Fantastic job! Let's continue.")
 --- type:MultipleChoiceExercise lang:r xp:75 skills:1
 ## Calculate number of nodes: food webs
 
-REMIND THAT NODES ARE SPECIES AND HOW TO COUNT IN R. The Benguela food web adjacency matrix `benguela.AM` that you created in the last exercise is already loaded. Calculate the number of species. <br>
+In abstract representations of ecological communities as networks, nodes represent species and links amongst them denote ecological interactions happening between the represented species. 
 
-(WE MIGHT WANT TO LOAD A BIGGER NETWORK HERE)
+Adjacency matrices are matrix representations of networks were elements in the matrix denote the presence of a link between the species represented by the row and the species represented by the column. To represent a food web composed of S species as a matrix then we need a SxS matrix in order to be able to represent all possible interaction between the S species. The number of species in the network can be calcuated thus as the number of rows or the number of columns.
+
+The Benguela food web adjacency matrix `benguela.AM` that you created in the last exercise is already loaded. Calculate the number of species. <br>
 
 *** =instructions
 - 30
@@ -239,7 +237,15 @@ test_mc(4)
 --- type:MultipleChoiceExercise lang:r xp:75 skills:1
 ## Calculate number of nodes: bipartite network
 
-EXPLAIN THE DIFFERENCES BETWEEN A FOODWEB MATRIX AND A BIPARTITE MATRIX (DIFFERENCES RELEVANT TO COUNT SPECIES). We have loaded a matrix representing a bipartite network of anemones with their interacting fish species called `anemonef`. Calculate the total number of anemone *and* fish species in the network.
+Food webs are network representation of who eats whom relationships. As such, there are not distinct subset of species among which interactions are not possible. This is why adjacency matrices for representing food webs contain the total number of species as rows and also as columns. 
+
+Other types of ecological networks, however, like for example, plant-animal mutualistic networks or host-parasite interaction networks, exhibit a bipartite structure, in which species can be classified into two distinct groups where interactions do not occur among members of the same group. For example, in a plant-animal mutualistic network, plants do not interact with plants and animal mutualists do not interact among them. This feature allows for a more concise matrix representation of bipartite networks.
+
+An adjacency matrix for a bipartite network only needs to represent one set of species (e.g. hosts/plants) as rows, and the other set of species (e.g. visitors/mutualists) as columns. Thus, the way of counting species in an adjacency matrix representing a mutualistic (bipartite) network is different from that used to count species in adjacency matrices representing food webs.
+
+For an ecological network represented by an adjacency matrix with size HxV, where H is the number of hosts and V is the number of visitors, the number of species in the network is equal to H + V.
+
+We have loaded a matrix representing a bipartite network of anemones with their interacting fish species called `anemonef`. Calculate the total number of anemone *and* fish species in the network.
 
 *** =instructions
 - 26
@@ -322,7 +328,9 @@ success_msg("Perfect! That network looks just fine!")
 --- type:NormalExercise lang:r xp:100 skills:1
 ## Converting matrix to igraph object
 
-EXPLAIN HOW AND WHY CONVERT A MATRIX TO AN IGRAPH OBJECT
+If we have an adjacency matrix and we want an igraph object representing the same network, without the need to create the network from scratch, igraph offers the functionality of creating graphs from adjancecy matrices. Just use the the function graph.adjacency(A), where A is your adjacency matrix.
+
+Check out the documentation for that function <a href="http://igraph.org/r/doc/graph_from_adjacency_matrix.html">here</a>, including additional parameters that you can use to create your network!
 
 *** =instructions
 - Use the `graph.adjacency()` function to convert `benguela.AM` into an `igraph` network called `benguela.network`
@@ -370,7 +378,9 @@ success_msg("Well done! Now you can use all the power to igraph to analyse the B
 --- type:NormalExercise lang:r xp:100 skills:1
 ## Calculate number of links and nodes with igraph
 
-EXPLAIN FUNCTIONS TO CALCULATE STUFF
+Once we have our network represented as an igraph object we can employ a wide range of functions provided by igraph to calculate properties of our network. Check out the igraph documentation for a full range of functions.
+
+For example, the vcount() function from igraph allows you to count the number of nodes/species in your network/food web. Similarly, the ecount() function, lets you calculate the total number of links/interactions in your network.
 
 *** =instructions
 - Use function `vcount()` to count the number of vertices (i.e., species) in `benguela.network`
@@ -426,7 +436,17 @@ success_msg("Good job!")
 --- type:NormalExercise lang:r xp:100 skills:1
 ## Calculate connectance
 
-AFTER VIDEO, EXPLAIN BRIEFLY CONECTIVITY AND GIVE EXAMPLE USING MATRIX
+*** =video_link
+//player.vimeo.com/video/153476481
+
+INSERT LINK FOR THIS VIDEO
+
+Now that we know what connectance is and how to calculate it, let's use this knowledge to calculate the connectance of our networks.
+
+For example, in the case of the adjacency matrix representing a food web we know that a matrix A contains all the links in our network. Hence, the number of links in our network is simply sum(A). Similarly we have also learnt that the number of species (at least for a food web) equals the number of rows (or columns) in the matrix: nrow(A).
+
+The connectance of our food web represented by matrix A is thus: sum(A)/(nrow(A)**2)
+
 
 *** =instructions
 - Calculate connectance using igraph functions
@@ -480,7 +500,7 @@ test_object(connectance, "identical")
 --- type:NormalExercise lang:r xp:100 skills:1
 ## Calculate links per species
 
-EXPLAIN CONCEPT AND WHY IT IS IMPORTANT
+Another way of assessing the connectivity of ecological networks is to calculate the mean number of links per species (L/S). The number of links per species offers a quick summary on how many interacting partners, on average, the species in the ecological network we are analysing have. Similar to connectance, it also gives us an idea of how connected are the species within our network.
 
 *** =instructions
 - Using igraph functions, calculate the average number of links per species in `benguela.network`
@@ -526,9 +546,11 @@ test_object(links.per.species, "identical")
 
 
 --- type:NormalExercise lang:r xp:200 skills:1
-## Calculate connectance bipartite network
+## Calculate connectance for bipartite network
 
-EXPLAIN PROBLEM
+We have learnt how to calculate the connectance of ecological networks in general: it is simply the fraction of realised links out of the possible ones. Additionally, we have explored methods to quantify connectance in food webs based on the information extracted either from the adjacency matrix or the igraph representation of our networks.
+
+We have also learnt that the way in which bipartite networks are represented in adjacency matrices is different from the way in which we represent food webs. Keeping that in mind, we need to find out ways of finding out what would be: 1.- the total possible number of links in a bipartite network (remember that links between species in the same group are 'forbidden'), and 2.- the correct way of finding out the number of species in a bipartite network from our matrix representation.
 
 *** =instructions
 - Calculate connectance of the bipartite network `anemonef`
@@ -611,9 +633,13 @@ test_mc(4) # if 2 is the correct option.
 
 
 --- type:NormalExercise lang:r xp:100 skills:1
-## Represent a network
+## Represent a network graphically
 
-EXPLAIN WAYS TO REPRESENT NETWORKS
+The network representations we are explored so far are great for manipulating them and calculating properties over them. However, to gain an intuitive idea of what the networks we are analysing look like, or if we want to show them in publications or websites, it is sometimes desirable to draw them as graphs: with dots representing nodes/species and lines connecting them representing links/interactions. In pretty much the same way we saw in the introductory video.
+
+Of course, drawing a network on a whiteboard using coloured pens is easy. Doing that on a computer or writing code in R to do it, might be more of a challenge. Fortunately, libraries such as igraph offer these functionalities. The plot() command from the igraph library (<a href="http://igraph.org/r/doc/plot.igraph.html">documentation hereL</a>) takes as an input an igraph object and produces a graphical representation of the network.
+
+Let's try it!
 
 *** =instructions
 - Plot Benguela food web

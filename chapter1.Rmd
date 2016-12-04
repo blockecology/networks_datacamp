@@ -3,14 +3,14 @@ title_meta  : Chapter 1
 title       : Introduction to networks
 description : Basic concepts about ecological networks, 
 
---- type:VideoExercise lang:r xp:50 skills:1
+--- type:VideoExercise lang:r xp:50 skills:1 key:401546b1c2
 ## Introduction to ecological networks
 
 
 *** =video_link
 //player.vimeo.com/video/153476481
 
---- type:MultipleChoiceExercise lang:r xp:50 skills:1
+--- type:MultipleChoiceExercise lang:r xp:50 skills:1 key:c722ea25ce
 ## One way or another
 
 If links in a network are represented as arrows, the network is:
@@ -33,7 +33,7 @@ Arrows usually show in which *direction* energy or biomass flows in the foodweb.
 test_mc(1) # if 2 is the correct option.
 ```
 
---- type:MultipleChoiceExercise lang:r xp:50 skills:1
+--- type:MultipleChoiceExercise lang:r xp:50 skills:1 key:d02749a43e
 ## Win win relations
 
 An ecological network encompassing relationships in wich both species benefit from them is a:
@@ -57,15 +57,15 @@ test_mc(2) # if 2 is the correct option.
 ```
 
 
---- type:NormalExercise lang:r xp:100 skills:1
+--- type:NormalExercise lang:r xp:100 skills:1 key:75c2eb5083
 
 <script type="text/javascript" src="http://latex.codecogs.com/latexit.js"></script>
 
 ## Network formats: edgelists and adjacency matrices
 
-Several computer readable formats exist to store the description and information contained in a network. The most commonly used ones in ecological networks (and other disciplines) are: (i) adjacency matrices, and (ii) edgelists.
+Several computer readable formats exist to store the description and information contained in a network. The most commonly used in ecology (and other disciplines) are: (i) adjacency matrices, and (ii) edgelists.
 
-Adjancecy are matrices in which columns and rows represent the nodes/species in the network, and a link/interaction between nodes/species is repsented as a 1. The absence of an interacion is given by a 0.
+Adjancecy matrices are matrices in which columns and rows represent the nodes (species) in the network, and a link (interaction) between them is repsented as a 1, while the absence of a link is represented as a 0.
 
 Thus, a network can be defined by a matrix **A** where:
 
@@ -159,7 +159,7 @@ success_msg("Fantastic job! Let's continue.")
 ```
 
 
---- type:MultipleChoiceExercise lang:r xp:75 skills:1
+--- type:MultipleChoiceExercise lang:r xp:75 skills:1 key:124419099e
 ## Calculate number of nodes: food webs
 
 In abstract representations of ecological communities as networks, nodes represent species and links amongst them denote ecological interactions happening between the represented species. 
@@ -199,7 +199,7 @@ test_mc(3)
 ```
 
 
---- type:MultipleChoiceExercise lang:r xp:75 skills:1
+--- type:MultipleChoiceExercise lang:r xp:75 skills:1 key:e1f22ea712
 ## Calculate number of links: food web
 
 REMIND INTERACTIONS ARE REPRESENTED AS ONES Now calculate the number of links
@@ -235,7 +235,7 @@ test_mc(4)
 ```
 
 
---- type:MultipleChoiceExercise lang:r xp:75 skills:1
+--- type:MultipleChoiceExercise lang:r xp:75 skills:1 key:d6d27980bb
 ## Calculate number of nodes: bipartite network
 
 Food webs are network representation of who eats whom relationships. As such, there are not distinct subset of species among which interactions are not possible. This is why adjacency matrices for representing food webs contain the total number of species as rows and also as columns. 
@@ -275,7 +275,7 @@ test_mc(3)
 ```
 
 
---- type:NormalExercise lang:r xp:100 skills:1
+--- type:NormalExercise lang:r xp:100 skills:1 key:abbdf92e1e
 ## Weaving networks from scratch
 
 EXPLAIN IGRAPH AND GIVE AN EXAMPLE OF HOW TO CREATE A SIMPLE NETWORK.
@@ -326,7 +326,7 @@ success_msg("Perfect! That network looks just fine!")
 ```
 
 
---- type:NormalExercise lang:r xp:100 skills:1
+--- type:NormalExercise lang:r xp:100 skills:1 key:9d717e21d7
 ## Converting matrix to igraph object
 
 If we have an adjacency matrix and we want an igraph object representing the same network, without the need to create the network from scratch, igraph offers the functionality of creating graphs from adjancecy matrices. Just use the the function graph.adjacency(A), where A is your adjacency matrix.
@@ -376,7 +376,7 @@ success_msg("Well done! Now you can use all the power to igraph to analyse the B
 ```
 
 
---- type:NormalExercise lang:r xp:100 skills:1
+--- type:NormalExercise lang:r xp:100 skills:1 key:d49a178f73
 ## Calculate number of links and nodes with igraph
 
 Once we have our network represented as an igraph object we can employ a wide range of functions provided by igraph to calculate properties of our network. Check out the igraph documentation for a full range of functions.
@@ -434,7 +434,7 @@ success_msg("Good job!")
 ```
 
 
---- type:NormalExercise lang:r xp:100 skills:1
+--- type:NormalExercise lang:r xp:100 skills:1 key:88f6db1309
 ## Calculate connectance
 
 *** =video_link
@@ -498,7 +498,7 @@ test_object(connectance, "identical")
 ```
 
 
---- type:NormalExercise lang:r xp:100 skills:1
+--- type:NormalExercise lang:r xp:100 skills:1 key:d84559d3f7
 ## Calculate links per species
 
 Another way of assessing the connectivity of ecological networks is to calculate the mean number of links per species (L/S). The number of links per species offers a quick summary on how many interacting partners, on average, the species in the ecological network we are analysing have. Similar to connectance, it also gives us an idea of how connected are the species within our network.
@@ -546,7 +546,7 @@ test_object(links.per.species, "identical")
 ```
 
 
---- type:NormalExercise lang:r xp:200 skills:1
+--- type:NormalExercise lang:r xp:200 skills:1 key:94f6cb5756
 ## Calculate connectance for bipartite network
 
 We have learnt how to calculate the connectance of ecological networks in general: it is simply the fraction of realised links out of the possible ones. Additionally, we have explored methods to quantify connectance in food webs based on the information extracted either from the adjacency matrix or the igraph representation of our networks.
@@ -591,7 +591,7 @@ test_object(bipartite.connectance, "identical")
 ```
 
 
---- type:MultipleChoiceExercise lang:r xp:100 skills:1
+--- type:MultipleChoiceExercise lang:r xp:100 skills:1 key:80700c1ef9
 ## The most connected
 
 We have loaded 5 food webs (A, B, C, D, E). Which has the highest connectance?
@@ -633,7 +633,7 @@ test_mc(4) # if 2 is the correct option.
 ```
 
 
---- type:NormalExercise lang:r xp:100 skills:1
+--- type:NormalExercise lang:r xp:100 skills:1 key:927ed018b0
 ## Represent a network graphically
 
 The network representations we are explored so far are great for manipulating them and calculating properties over them. However, to gain an intuitive idea of what the networks we are analysing look like, or if we want to show them in publications or websites, it is sometimes desirable to draw them as graphs: with dots representing nodes/species and lines connecting them representing links/interactions. In pretty much the same way we saw in the introductory video.

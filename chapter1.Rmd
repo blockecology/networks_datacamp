@@ -67,21 +67,11 @@ Several computer readable formats exist to store the description and information
 
 Adjancecy matrices are matrices in which columns and rows represent the nodes (species) in the network, and a link (interaction) between them is repsented as a 1, while the absence of a link is represented as a 0.
 
-Thus, a network can be defined by a matrix **A** where:
-
-<div lang="latex">
-\\begin{cases} 
-      a_{ij} = 1 & if \ there \ is \ an \ interaction \ between \ i \ and \ j \\\\
-      a_{ij} = 0 & if \ there \ is \ NO \ interaction \ between \ i \ and \ j
-\\end{cases}
-</div>
-
-
-In the case of a foodweb, for example, as we saw previously, links are directed from prey to predator. The convention here is to take prey as being represented by rows and predators by columns. Thus, an interaction a<sub>ij</sub> runs from prey i to predator j.
+In a foodweb, for example, as we saw previously, links are directed from prey to predator. In the adjacency matrix, the rows represent prey species and the columns represent predators. Thus, an interaction a<sub>ij</sub> runs from prey i to predator j.
 
 In the case of a mutualistic (i.e. bipartite) network, species are not all represented in each dimension of the matrix (rows and columns). Instead hosts are usually shown in rows and their mutualistic partners are shown in columns. This makes these matrices non-square.
 
-Edgelists on the other hand are lists of pairs of identifiers (usually integers) that
+Edge lists, on the other hand, are lists of pairs of identifiers (usually integers) that
 denote links (or ecological interactions) from the first item in pair to the second.
 For example, a network specified by the following edgelist: 
 
@@ -103,16 +93,18 @@ More sophisticated ways of representing and storing networks exist, such as for 
 the <a href="http://graphml.graphdrawing.org">GraphML</a> format, in which additional information about the network, the nodes, and 
 the links can be included in the description.
 
-In this course we will use edgelists as a starting format and then convert that 
+In this course we will use edge lists as a starting format and then convert that 
 representation into an adjacency matrix.
 
 
 *** =instructions
+We have loaded an edge list of the Benguela food web called `benguela.EL`. 
+
 - Make an adjacency matrix for the Benguela food web. For now, let it contain only zeros. 
-- Add intereactions to the adjacency matrix.
+- Add interactions to the adjacency matrix.
 
 *** =hint
-- Remember that in numbers in an edge list represent species. To know how many species there are in the food web, look for the largest number in the edge list.
+- Remember that numbers in an edge list represent species. To know how many species there are in the food web, look for the largest number in the edge list.
 - Each line in the edge list represents an interaction between the species in each column.
 
 *** =pre_exercise_code
